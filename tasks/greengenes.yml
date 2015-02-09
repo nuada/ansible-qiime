@@ -1,0 +1,21 @@
+---
+- name: create directory
+  file: path="{{ greenegenes_dir }}" state=directory
+    owner=root group=root mode=0755
+- name: download lanemask data
+  get_url: url=http://greengenes.lbl.gov/Download/Sequence_Data/lanemask_in_1s_and_0s
+    dest="{{ greenegenes_dir }}/lanemask_in_1s_and_0s"
+
+- name: download core data
+  get_url: url=http://greengenes.lbl.gov/Download/Sequence_Data/Fasta_data_files/core_set_aligned.fasta.imputed
+    dest="{{ greenegenes_dir }}/core_set_aligned.fasta.imputed"
+
+- name: install curl
+  apt: name=curl
+
+- name: decompress OTU data
+  shell: mkdir "{{ greenegenes_dir }}/13_8" &&
+    curl ftp://greengenes.microbio.me/greengenes_release/gg_13_5/gg_13_8_otus.tar.gz | 
+      tar -zx -C "{{ greenegenes_dir }}"
+  args:
+    creates: "{{ greenegenes_dir }}/gg_13_8_otus"

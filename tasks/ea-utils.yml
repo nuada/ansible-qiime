@@ -1,0 +1,14 @@
+---
+- name: install prerequisites
+  apt: name={{ item }}
+  with_items:
+    - libgsl0-dev
+    - subversion
+
+- name: checkout ea-utils source
+  subversion: repo=http://ea-utils.googlecode.com/svn/trunk/ dest=/tmp/qiime/ea-utils
+
+- name: compile and install
+  shell: make && make install chdir=/tmp/qiime/ea-utils/clipper
+  notify:
+    - tmp cleanup

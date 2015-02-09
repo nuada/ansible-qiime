@@ -1,0 +1,5 @@
+---
+# CRAN mirror for installing R packages
+cran_mirror: "http://cran.r-project.org"
+# Enable HDF5 support
+hdf5: no

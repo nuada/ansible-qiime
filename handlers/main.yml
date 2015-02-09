@@ -1,0 +1,3 @@
+---
+- name: tmp cleanup
+  command: rm -rf /tmp/qiime

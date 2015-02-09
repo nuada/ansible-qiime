@@ -1,0 +1,77 @@
+---
+- name: install Ubuntu CRAN key
+  apt_key: keyserver=keyserver.ubuntu.com id=E084DAB9
+
+- name: setup CRAN apt repo
+  copy: dest=/etc/apt/sources.list.d/cran.list
+    content="deb {{ cran_mirror }}/bin/linux/ubuntu {{ ansible_lsb.codename }}/"
+
+- name: install usearch
+  get_url: url="{{ usearch_url }}" dest=/usr/bin/usearch
+    owner=root group=root mode=0755
+  when: usearch_url is defined
+
+- name: install qiime dependencies
+  apt: name={{ item }} force=yes update_cache=yes
+  with_items:
+    - blast2
+    - gfortran
+    - ipython
+    - liblapack-dev
+    - openjdk-7-jre-headless
+    - python-dev
+    - python-matplotlib
+    - python-pip
+    - r-base
+# Optional:
+#    - fasttree
+#    - libbz2-dev
+#    - libfreetype6-dev
+#    - libncurses5-dev
+#    - libpng12-dev
+#    - libreadline-dev
+#    - libxslt1.1
+#    - libxslt1-dev
+#    - raxml
+#    - rtax
+#    - zlib1g
+#    - zlib1g-dev
+
+- name: install h5py dependencies
+  apt: name={{ item }}
+  with_items:
+    - cython
+    - libhdf5-dev
+  when: hdf5
+
+- name: install h5py
+  pip: name=h5py
+  when: hdf5
+
+- include: ea-utils.yml
+
+- name: install R dependecies from CRAN
+  command: /usr/bin/Rscript -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) install.packages('{{ item }}', repo=c('{{ cran_mirror }}'))"
+  with_items:
+    - ape
+    - gtools
+    - klaR
+    - MASS
+    - optparse
+    - randomForest
+    - RColorBrewer
+    - vegan
+
+- name: install QIIME
+  pip: name=qiime version=1.9.0
+
+- name: generate QIIME config
+  template: src=qiime_config.j2 dest=/usr/local/etc/qiime_config
+    owner=root group=root mode=0644
+
+- name: default user
+  user: name=qiime uid=1000 group=sudo
+
+- name: allow qiime user to use passwordless sudo
+  copy: dest=/etc/sudoers.d/90-qiime content="qiime ALL=(ALL) NOPASSWD:ALL"
+    owner=root group=root mode=0440

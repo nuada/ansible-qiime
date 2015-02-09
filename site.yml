@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  connection: local
+
+  roles:
+    - role: nuada.dockerize
+      timezone: "Europe/Warsaw"
+
+    - role: nuada.qiime
+      cran_mirror: "http://r.meteo.uni.wroc.pl"
+#      usearch_url: "{{ lookup('file', '/etc/ansible/usearch.url') }}"
+
+  tasks:
+    - name: install common linux tools
+      apt: name={{ item }}
+      with_items:
+        - bsdmainutils
+        - git
+        - screen
+        - unzip
+        - vim
+        - wget
+
+    - name: install common NGS tools
+      apt: name={{ item }}
+      with_items:
+        - bowtie2
+        - bwa
+        - fastqc
+        - samtools
+
+    - name: install cutadapt
+      pip: name=cutadapt
