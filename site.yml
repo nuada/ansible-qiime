@@ -16,7 +16,7 @@
       with_items:
         - bsdmainutils
         - git
-        - screen
+        - byobu
         - unzip
         - vim
         - wget
