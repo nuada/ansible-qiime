@@ -8,7 +8,6 @@
 
     - role: nuada.qiime
       cran_mirror: "http://r.meteo.uni.wroc.pl"
-#      usearch_url: "{{ lookup('file', '/etc/ansible/usearch.url') }}"
 
   tasks:
     - name: install common linux tools
