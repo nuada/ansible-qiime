@@ -18,6 +18,8 @@
     - python-matplotlib
     - python-pip
     - r-base
+    - r-cran-xml
+    - libssl-dev
 # Optional:
 #    - fasttree
 #    - libbz2-dev
@@ -49,6 +51,7 @@
   command: /usr/bin/Rscript -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) install.packages('{{ item }}', repo=c('{{ cran_mirror }}'))"
   with_items:
     - ape
+    - biom
     - gtools
     - klaR
     - MASS
@@ -57,8 +60,13 @@
     - RColorBrewer
     - vegan
 
+- name: install R dependecies from BioConductor
+  command: /usr/bin/Rscript -e "source('http://bioconductor.org/biocLite.R'); biocLite('{{ item }}')"
+  with_items:
+    - DESeq2
+
 - name: install QIIME
-  pip: name=qiime version=1.9.0
+  pip: name=qiime version=1.9.1
 
 - name: generate QIIME config
   template: src=qiime_config.j2 dest=/usr/local/etc/qiime_config
