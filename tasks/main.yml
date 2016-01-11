@@ -73,7 +73,7 @@
     owner=root group=root mode=0644
 
 - name: default user
-  user: name=qiime uid=1000 group=sudo
+  user: name=qiime uid=1000 group=sudo shell=/bin/bash
 
 - name: allow qiime user to use passwordless sudo
   copy: dest=/etc/sudoers.d/90-qiime content="qiime ALL=(ALL) NOPASSWD:ALL"
