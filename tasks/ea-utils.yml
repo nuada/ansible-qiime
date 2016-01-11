@@ -6,9 +6,9 @@
     - subversion
 
 - name: checkout ea-utils source
-  subversion: repo=http://ea-utils.googlecode.com/svn/trunk/ dest=/tmp/qiime/ea-utils
+  subversion: repo=http://ea-utils.googlecode.com/svn/trunk/ dest=/tmp/ansible/ea-utils
 
 - name: compile and install
-  shell: make && make install chdir=/tmp/qiime/ea-utils/clipper
+  shell: make && make install chdir=/tmp/ansible/ea-utils/clipper
   notify:
     - tmp cleanup
