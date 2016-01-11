@@ -1,0 +1,4 @@
+#!/bin/bash
+
+args="$(printf "%q " "$@")"
+exec $(which vsearch) $(echo "${args}" | sed -e 's/--threads [0-9\.]\+ //')
