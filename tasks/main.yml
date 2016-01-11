@@ -6,11 +6,6 @@
   copy: dest=/etc/apt/sources.list.d/cran.list
     content="deb {{ cran_mirror }}/bin/linux/ubuntu {{ ansible_lsb.codename }}/"
 
-- name: install usearch
-  get_url: url="{{ usearch_url }}" dest=/usr/bin/usearch
-    owner=root group=root mode=0755
-  when: usearch_url is defined
-
 - name: install qiime dependencies
   apt: name={{ item }} force=yes update_cache=yes
   with_items:
