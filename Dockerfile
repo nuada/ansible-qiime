@@ -24,8 +24,10 @@ ADD templates ${ANSIBLE_HOME}/roles/nuada.qiime/templates
 
 # Playbook
 ADD site.yml ${ANSIBLE_HOME}/site.yml
-ADD usearch.url ${ANSIBLE_HOME}/usearch.url
 RUN ansible-playbook ${ANSIBLE_HOME}/site.yml
+
+# vsearch wrapper
+ADD usearch61 /usr/bin/usearch61
 
 ENV QIIME_CONFIG_FP /usr/local/etc/qiime_config
 ENV HOME /home/qiime

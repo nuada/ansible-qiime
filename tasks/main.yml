@@ -78,3 +78,6 @@
 - name: allow qiime user to use passwordless sudo
   copy: dest=/etc/sudoers.d/90-qiime content="qiime ALL=(ALL) NOPASSWD:ALL"
     owner=root group=root mode=0440
+
+- name: vsearch get source
+  shell: curl -L https://github.com/torognes/vsearch/releases/download/v1.9.6/vsearch-1.9.6-linux-x86_64.tar.gz | tar -zx --strip-components=2 -C /usr/bin vsearch-1.9.6-linux-x86_64/bin/vsearch
