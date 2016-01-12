@@ -72,11 +72,18 @@
   template: src=qiime_config.j2 dest=/usr/local/etc/qiime_config
     owner=root group=root mode=0644
 
-- name: default user
-  user: name=qiime uid=1000 group=sudo shell=/bin/bash
+- name: group omicron
+  group: name=omicron gid=1000
 
-- name: allow qiime user to use passwordless sudo
-  copy: dest=/etc/sudoers.d/90-qiime content="qiime ALL=(ALL) NOPASSWD:ALL"
+- name: default user
+  user: name=omicron uid=1000 group=omicron groups=sudo shell=/bin/bash
+
+- name: ssh dir
+  file: path=/home/omicron/.ssh state=directory
+     owner=omicron group=omicron mode=0700
+
+- name: allow omicron user to use passwordless sudo
+  copy: dest=/etc/sudoers.d/90-omicron content="omiron ALL=(ALL) NOPASSWD:ALL"
     owner=root group=root mode=0440
 
 - name: vsearch get source

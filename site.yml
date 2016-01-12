@@ -16,6 +16,7 @@
         - bsdmainutils
         - byobu
         - git
+        - byobu
         - unzip
         - vim
         - wget
