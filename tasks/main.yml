@@ -87,7 +87,7 @@
     owner=root group=root mode=0440
 
 - name: vsearch get source
-  shell: curl -L https://github.com/torognes/vsearch/releases/download/v1.7.0/vsearch-1.7.0-linux-x86_64.tar.gz | tar -zx --strip-components=2 -C /usr/bin vsearch-1.7.0-linux-x86_64/bin/vsearch
+  shell: curl -L "https://github.com/torognes/vsearch/releases/download/v1.7.0/vsearch-1.7.0-linux-x86_64.tar.gz" | tar -zx --strip-components=2 -C /usr/bin vsearch-1.7.0-linux-x86_64/bin/vsearch
 
 - name: setup matplotlib for headless operation
-  lineinfile: dest=/etc/matplotlibrc line="backend : Agg" regexp='^backend'
+  lineinfile: "dest=/etc/matplotlibrc line='backend: Agg' regexp='^backend'"
